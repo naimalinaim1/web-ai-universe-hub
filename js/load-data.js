@@ -1,17 +1,26 @@
 // select element
 const toolContainerEl = document.getElementById("tools-container");
 
+let data;
 // load ai data
 const loadAiData = async () => {
   const url = "https://openapi.programming-hero.com/api/ai/tools";
-  const data = await loadApiData(url);
-  processData(data.data.tools);
+  const getData = await loadApiData(url);
+  data  = getData.data.tools;
+  processData(6);
 };
 
 // process data
-const processData = (data) => {
+const processData = (showDataLen) => {
+  let sliceData = data;
+  if(showDataLen) {
+    sliceData = data.slice(0, showDataLen)
+  } else {
+    // see more button hidden
+    document.getElementById('see-more-data-btn').classList.add('hidden');
+  }
   toolContainerEl.innerHTML = "";
-  data.forEach((toolInfo) => {
+  sliceData.forEach((toolInfo) => {
     displayAiData(toolInfo);
   });
 };
