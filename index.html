@@ -8,6 +8,8 @@
     <!-- daisyUI css  -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.4/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- font awesome icons -->
+    <script src="https://kit.fontawesome.com/638dfe9f71.js" crossorigin="anonymous"></script>
     <!-- google font Work Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,5 +20,41 @@
     <header class="max-w-[1920px] container">
         <h1 class="text-center text-3xl font-bold py-8">Al Universe Hub</h1>
     </header>
+    <!-- main -->
+    <main class="max-w-[1920px] container">
+        <!-- sort by date button -->
+        <div class="text-center mb-12">
+            <button class="btn btn-secondary">Sort By Date</button>
+        </div>
+        <!-- card container -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 px-3 md:px-6">
+            <div class="card w-full border">
+                <figure class="px-6 pt-6">
+                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" alt="Shoes" class="rounded-xl" />
+                </figure>
+                <div class="card-body p-0 pl-4 py-5">
+                    <h2 class="text-2xl font-bold">Features</h2>
+                    <!-- features list container -->
+                    <ol class="text-gray-500 pl-7 pb-4 mt-2 space-y-0.5" style="list-style: decimal;">
+                        <li>Natural language processing</li>
+                        <li>Natural language processing</li>
+                        <li>Natural language processing</li>
+                    </ol>
+                    <hr class="w-11/12">
+                    <!-- technology information-->
+                    <div class="flex items-center justify-between pr-10 pt-4">
+                        <div>
+                            <h3 class="text-2xl font-bold">ChatGPT</h3>
+                            <p class="flex items-center gap-2 text-gray-500 mt-1.5">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                <span>10/01/2023</span>
+                            </p>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-red-500 bg-red-100 p-4 rounded-full" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
