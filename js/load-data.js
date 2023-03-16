@@ -1,6 +1,6 @@
 // select element
 const toolContainerEl = document.getElementById("tools-container");
-
+const seeMoreBtn = document.getElementById('see-more-data-btn');
 let data;
 // load ai data
 const loadAiData = async () => {
@@ -13,11 +13,12 @@ const loadAiData = async () => {
 // process data
 const processData = (showDataLen) => {
   let sliceData = data;
-  if(showDataLen) {
-    sliceData = data.slice(0, showDataLen)
+  if(showDataLen && sliceData.length > showDataLen) {
+    sliceData = data.slice(0, showDataLen);
+    seeMoreBtn.classList.remove('hidden');
   } else {
     // see more button hidden
-    document.getElementById('see-more-data-btn').classList.add('hidden');
+    seeMoreBtn.classList.add('hidden');
   }
   toolContainerEl.innerHTML = "";
   sliceData.forEach((toolInfo) => {
