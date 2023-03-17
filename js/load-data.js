@@ -195,5 +195,16 @@ const showIntegrations = (integrations) => {
   return 'No data Found';
 }
 
+const sortByDate = () => {
+  let sortData = data;
+  data.forEach(tool => {
+    tool.published_in = new Date(tool.published_in);
+  });
+  
+  // Sort the array by published_in in ascending order
+  data.sort((a, b) => a.published_in - b.published_in);
+  processData()
+
+}
 
 loadAiData();
