@@ -3,6 +3,7 @@ const toolContainerEl = document.getElementById("tools-container");
 const seeMoreBtn = document.getElementById("see-more-data-btn");
 const modalEl = document.getElementById("toolInfoContainer");
 let data;
+let loadDataLen = 6;
 // load ai data
 const loadAiData = async () => {
   // loader start
@@ -10,9 +11,9 @@ const loadAiData = async () => {
   const url = "https://openapi.programming-hero.com/api/ai/tools";
   const getData = await loadApiData(url);
   data = getData.data.tools;
-  processData(6);
+  processData(loadDataLen);
 };
-
+let processInfo = false;
 // process data
 const processData = (showDataLen) => {
   let sliceData = data;
@@ -22,6 +23,7 @@ const processData = (showDataLen) => {
   } else {
     // see more button hidden
     seeMoreBtn.classList.add("hidden");
+    processInfo = !processInfo;
   }
   toolContainerEl.innerHTML = "";
   sliceData.forEach((toolInfo) => {
@@ -196,14 +198,17 @@ const showIntegrations = (integrations) => {
 }
 
 const sortByDate = () => {
-  let sortData = data;
   data.forEach(tool => {
     tool.published_in = new Date(tool.published_in);
   });
   
   // Sort the array by published_in in ascending order
   data.sort((a, b) => a.published_in - b.published_in);
-  processData()
+  if(processInfo) {
+    processData();
+  } else {
+    processData(loadDataLen);
+  }
 
 }
 
