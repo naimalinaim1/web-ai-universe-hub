@@ -1,6 +1,7 @@
 // select element
 const toolContainerEl = document.getElementById("tools-container");
 const seeMoreBtn = document.getElementById("see-more-data-btn");
+const modalEl = document.getElementById("toolInfoContainer");
 let data;
 // load ai data
 const loadAiData = async () => {
@@ -60,7 +61,9 @@ const displayAiData = (data) => {
                     <span>${date ? date : "No date found"}</span>
                 </p>
             </div>
-            <i onclick="showDetails(${id})" class="fa-solid fa-arrow-right text-red-500 bg-red-100 p-4 rounded-full" style="cursor: pointer;"></i>
+            <label for="toolDetailsInfo">
+              <i onclick="showDetails('${id}')" class="fa-solid fa-arrow-right text-red-500 bg-red-100 p-4 rounded-full" style="cursor: pointer;"></i>
+            </label>
         </div>
     </div>
     `;
@@ -76,8 +79,121 @@ const isLoader = (isLod) => {
   }
 };
 
-const showDetails = (id) => {
-  console.log(id);
+const getToolInfo = async (id) => {
+  const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+  const data = await loadApiData(url);
+  return data.data;
 };
+
+const showDetails = async (id) => {
+  // clear previous data
+  modalEl.innerHTML = "";
+  const toolInfo = await getToolInfo(id);
+  const {
+    description: des,
+    pricing,
+    features,
+    integrations,
+    accuracy,
+    image_link,
+    input_output_examples,
+  } = toolInfo;
+  modalEl.innerHTML = `
+    <div class="bg-red-100 rounded-md border border-red-400 p-2.5">
+      <p class="text-xl font-bold">${des ? des : "No description"}</p>
+      <!-- price plane -->
+      <style>
+          #pricing p:first-child {
+            color: green;
+          }
+          #pricing p:nth-child(2) {
+              color: orange;
+          }
+          #pricing p:last-child {
+              color: red;
+          }
+      </style>
+      <div id="pricing" class="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2 my-6">
+        ${
+          pricing
+            ? pricing
+                ?.map((prices) => {
+                  const { plan, price } = prices;
+                  return price
+                    ? `
+                      <p class="flex justify-center items-center bg-white text-center p-3 rounded-md text-xl">${price} ${
+                        plan.toLowerCase() == "Enterprise".toLowerCase()
+                          ? ""
+                          : plan
+                      }</p>`
+                    : `<p class="flex justify-center items-center bg-white text-center p-3 rounded-md text-xl">Free of Cost/${plan}</p>`;
+                })
+                .join("")
+            : `
+                <p class="flex justify-center items-center bg-white text-center p-3 rounded-md text-xl">Free of Cost/ Basic</p>
+                <p class="flex justify-center items-center bg-white text-center p-3 rounded-md text-xl">Free of Cost/ Pro</p>
+                <p class="flex justify-center items-center bg-white text-center p-3 rounded-md text-xl">Free of Cost/ Enterprise</p>`
+        }
+      </div>
+      <!-- feature -->
+      <div class="grid grid-cols-1 sm:grid-cols-2  gap-5">
+        <!-- feature -->
+        <div>
+          <p class="text-xl font-bold">Features</p>
+            <ul class="py-3 pl-4 text-gray-500" style="list-style: disc;">
+            ${
+              showFeatures(features)
+            }
+            </ul>
+        </div>
+        <!-- integrations -->
+        <div>
+          <p class="text-xl font-bold">Integrations</p>
+          <ul class="py-3 pl-4 text-gray-500" style="list-style: disc;">
+            ${
+              showIntegrations(integrations)
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-md relative border p-4 hidden md:block">
+      <div>
+        ${image_link && `<img src="${image_link[0]}" class="w-full rounded-lg">` }
+      </div>
+      ${accuracy?.score ? `<p class="bg-red-500 absolute top-2 right-2 text-white rounded-md p-1">${accuracy?.score && accuracy?.score * 100 +'% accuracy'}</p>` : ''}
+      
+      <div class="mt-5 text-center">
+          <p class="text-xl font-bold mb-2">${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}</p>
+          <p>${input_output_examples ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}</p>
+      </div>
+    </div>
+  `;
+};
+// show feature
+const showFeatures = (feature) => {
+  let featureList = '';
+  if(feature) {
+    for (const key in feature) {
+        const ele = feature[key] && feature[key]?.feature_name;
+        featureList += `<li>${ele}</li>`;
+    }
+    return featureList;
+  }
+  return 'No feature found'
+}
+
+// show integrations
+const showIntegrations = (integrations) => {
+  let integrationList = '';
+  if (integrations) {
+    integrations.forEach(ele => {
+      integrationList += `<li>${ele}</li>`;
+    });
+      return integrationList;
+  }
+  return 'No data Found';
+}
+
 
 loadAiData();
