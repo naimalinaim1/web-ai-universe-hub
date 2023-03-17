@@ -17,17 +17,17 @@
 </head>
 <body>
     <!-- header -->
-    <header class="max-w-[1920px] container">
+    <header class="max-w-[1920px] mx-auto container">
         <h1 class="text-center text-3xl font-bold py-8">Al Universe Hub</h1>
     </header>
     <!-- main -->
-    <main class="max-w-[1920px] container">
+    <main class="max-w-[1920px] mx-auto container">
         <!-- sort by date button -->
         <div class="text-center mb-12">
             <button onclick="sortByDate()" class="btn btn-secondary">Sort By Date</button>
         </div>
         <!-- card container -->
-        <section id="tools-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 px-3 md:px-6 mb-12">
+        <section id="tools-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 2xl:gap-16 px-3 md:px-6 2xl:px-12 mb-12">
         </section>
         <!-- see more data button -->
         <div id="see-more-data-btn" class="text-center mb-12 hidden">
@@ -50,7 +50,7 @@
     </main>
 
     <!-- script file -->
-    <script src="js/utilities.js"></script>
-    <script src="js/load-data.js"></script>
+    <script defer src="js/utilities.js"></script>
+    <script defer src="js/load-data.js"></script>
 </body>
 </html>
